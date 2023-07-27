@@ -6,20 +6,17 @@ import models.Operation;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Simon Pirko on 25.07.23
- */
 public class InMemoryOperationStorage implements OperationStorage {
 
-  private final List<Operation> operations = new ArrayList<>();
+    private final List<Operation> operations = new ArrayList<>();
 
-  @Override
-  public void save(Operation operation) {
-    operations.add(operation);
-  }
+    @Override
+    public void save(Operation operation) {
+        operations.add(operation);
+    }
 
-  @Override
-  public List<Operation> findAll() {
-    return new ArrayList<>(this.operations);
-  }
+    @Override
+    public List<Operation> findAll() {
+        return new ArrayList<>(this.operations);
+    }
 }
