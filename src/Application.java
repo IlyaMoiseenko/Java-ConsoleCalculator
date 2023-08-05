@@ -1,42 +1,116 @@
 import interfaces.Reader;
+import interfaces.Session;
 import interfaces.Writer;
 import interfaces.impl.reader.ConsoleReader;
 import interfaces.impl.writer.ConsoleWriter;
 import models.Operation;
+import models.User;
 import services.OperationService;
+import services.UserService;
+import session.ConsoleSession;
+import utils.UserData;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 public class Application {
 
     private final Reader reader = new ConsoleReader();
     private final Writer writer = new ConsoleWriter();
     private final OperationService operationService = new OperationService();
+    private final Session session = new ConsoleSession();
+    private final UserService userService = new UserService();
 
     public void start() {
         while (true) {
-            writer.write("Enter num 1");
-            double num1 = reader.readNumber();
-            writer.write("Enter num 2");
-            double num2 = reader.readNumber();
-            writer.write("Choose type: sum, sub, mul, div");
-            String type = reader.readType();
-            Operation operation = new Operation(num1, num2, type, LocalDate.now());
-            Operation result = operationService.calculate(operation);
-            writer.write("Result = " + result.getResult());
+            if (session.getUser() == null) {
+                showGuestMenu();
 
-            writer.write("Continue? 1 - yes, 2 - no, 3 - show history");
-            double answer = reader.readNumber();
-            if (answer == 2) {
-                break;
-            }
-            if (answer == 3) {
-                List<String> history = operationService.getHistory();
-                for (String op : history) {
-                    writer.write(op);
+                double answer = reader.readNumber();
+                if (answer == 1) {
+                    Map<String, String> userData = getUserData();
+
+                    userService.create(
+                            userData.get(UserData.USERNAME_KEY),
+                            userData.get(UserData.PASSWORD_KEY)
+                    );
+                } else if (answer == 2) {
+                    Map<String, String> userData = getUserData();
+
+                    User currentUser = userService.logIn(
+                            userData.get(UserData.USERNAME_KEY),
+                            userData.get(UserData.PASSWORD_KEY)
+                    );
+
+                    session.addCurrentSessionUser(currentUser);
+                } else if (answer == 3) {
+                    break;
+                }
+            } else {
+                showUserMenu();
+
+                double answer = reader.readNumber();
+                if (answer == 1) {
+                    startCalculate();
+                } else if (answer == 2) {
+                    showHistory();
+                } else if (answer == 3) {
+                    session.removeCurrentSessionUser();
+                } else if (answer == 4) {
+                    break;
                 }
             }
+        }
+    }
+
+    private void showGuestMenu() {
+        writer.write("Choose:");
+        writer.write("1 - Sign Up");
+        writer.write("2 - Log In");
+        writer.write("3 - Exit");
+    }
+
+    private void showUserMenu() {
+        writer.write("Choose:");
+        writer.write("1 - Calculator");
+        writer.write("2 - Show history");
+        writer.write("3 - Logout");
+        writer.write("4 - Exit");
+    }
+
+    private Map<String, String> getUserData() {
+        Map<String, String> userData = new HashMap<>();
+
+        writer.write("Enter username:");
+        String username = reader.readLine();
+        userData.put(UserData.USERNAME_KEY, username);
+
+        writer.write("Enter Password");
+        String password = reader.readLine();
+        userData.put(UserData.PASSWORD_KEY, password);
+
+        return userData;
+    }
+
+    private void startCalculate() {
+        writer.write("Enter num 1");
+        double num1 = reader.readNumber();
+
+        writer.write("Enter num 2");
+        double num2 = reader.readNumber();
+
+        writer.write("Choose type: sum, sub, mul, div");
+        String type = reader.readType();
+
+        Operation operation = new Operation(num1, num2, type, session.getUser());
+        Operation result = operationService.calculate(operation);
+        writer.write("Result = " + result.getResult());
+    }
+
+    private void showHistory() {
+        List<String> historyByUser = operationService.getHistoryByUser(session.getUser());
+
+        for (String result : historyByUser) {
+            writer.write(result);
         }
     }
 }

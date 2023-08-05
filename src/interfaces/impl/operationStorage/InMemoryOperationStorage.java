@@ -2,6 +2,7 @@ package interfaces.impl.operationStorage;
 
 import interfaces.OperationStorage;
 import models.Operation;
+import models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,5 +19,10 @@ public class InMemoryOperationStorage implements OperationStorage {
     @Override
     public List<Operation> findAll() {
         return new ArrayList<>(this.operations);
+    }
+
+    @Override
+    public List<Operation> findAllByUser(User user) {
+        return null;
     }
 }

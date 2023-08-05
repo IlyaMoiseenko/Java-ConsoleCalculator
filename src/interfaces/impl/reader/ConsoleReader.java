@@ -17,4 +17,9 @@ public class ConsoleReader implements Reader {
     public String readType() {
         return scanner.next();
     }
+
+    @Override
+    public String readLine() {
+        return scanner.next();
+    }
 }
