@@ -12,19 +12,17 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class ConsoleSession implements Session {
-    private User user;
+    private Optional<User> user;
     private final String path = "src/session/currentSession.txt";
     private final File file = new File(path);
     private final UserService userService = new UserService();
     private int statusCode = 1;
 
     public ConsoleSession() {
-        Optional<User> currentUser = setCurrentSessionUser();
-
-        currentUser.ifPresent(value -> user = value);
+        user = setCurrentSessionUser();
     }
 
-    public User getUser() {
+    public Optional<User> getUser() {
         return user;
     }
 
@@ -53,7 +51,7 @@ public class ConsoleSession implements Session {
     }
 
     public void addCurrentSessionUser(User user) {
-        this.user = user;
+        this.user = Optional.of(user);
 
         try (FileWriter fileWriter = new FileWriter(file, false)) {
             fileWriter.write(user.getId().toString());

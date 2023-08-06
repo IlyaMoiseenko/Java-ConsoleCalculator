@@ -2,8 +2,10 @@ package interfaces;
 
 import models.User;
 
+import java.util.Optional;
+
 public interface Session {
-    User getUser();
+    Optional<User> getUser();
 
     private void setCurrentSessionUser() {};
 
