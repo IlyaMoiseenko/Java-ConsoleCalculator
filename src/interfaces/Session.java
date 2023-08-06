@@ -10,4 +10,8 @@ public interface Session {
     void addCurrentSessionUser(User user);
 
     void removeCurrentSessionUser();
+
+    void setStatusCode(int newStatusCode);
+
+    int getStatusCode();
 }

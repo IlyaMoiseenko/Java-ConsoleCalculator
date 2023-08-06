@@ -21,43 +21,11 @@ public class Application {
     private final UserService userService = new UserService();
 
     public void start() {
-        while (true) {
+        while (session.getStatusCode() == 1) {
             if (session.getUser() == null) {
-                showGuestMenu();
-
-                double answer = reader.readNumber();
-                if (answer == 1) {
-                    Map<String, String> userData = getUserData();
-
-                    userService.create(
-                            userData.get(UserData.USERNAME_KEY),
-                            userData.get(UserData.PASSWORD_KEY)
-                    );
-                } else if (answer == 2) {
-                    Map<String, String> userData = getUserData();
-
-                    User currentUser = userService.logIn(
-                            userData.get(UserData.USERNAME_KEY),
-                            userData.get(UserData.PASSWORD_KEY)
-                    );
-
-                    session.addCurrentSessionUser(currentUser);
-                } else if (answer == 3) {
-                    break;
-                }
+                guestActions();
             } else {
-                showUserMenu();
-
-                double answer = reader.readNumber();
-                if (answer == 1) {
-                    startCalculate();
-                } else if (answer == 2) {
-                    showHistory();
-                } else if (answer == 3) {
-                    session.removeCurrentSessionUser();
-                } else if (answer == 4) {
-                    break;
-                }
+                userActions();
             }
         }
     }
@@ -111,6 +79,46 @@ public class Application {
 
         for (String result : historyByUser) {
             writer.write(result);
+        }
+    }
+
+    private void guestActions() {
+        showGuestMenu();
+
+        double answer = reader.readNumber();
+        if (answer == 1) {
+            Map<String, String> userData = getUserData();
+
+            userService.create(
+                    userData.get(UserData.USERNAME_KEY),
+                    userData.get(UserData.PASSWORD_KEY)
+            );
+        } else if (answer == 2) {
+            Map<String, String> userData = getUserData();
+
+            Optional<User> currentUser = userService.logIn(
+                    userData.get(UserData.USERNAME_KEY),
+                    userData.get(UserData.PASSWORD_KEY)
+            );
+
+            currentUser.ifPresent(session::addCurrentSessionUser);
+        } else if (answer == 3) {
+            session.setStatusCode(0);
+        }
+    }
+
+    private void userActions() {
+        showUserMenu();
+
+        double answer = reader.readNumber();
+        if (answer == 1) {
+            startCalculate();
+        } else if (answer == 2) {
+            showHistory();
+        } else if (answer == 3) {
+            session.removeCurrentSessionUser();
+        } else if (answer == 4) {
+            session.setStatusCode(0);
         }
     }
 }

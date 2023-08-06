@@ -7,6 +7,7 @@ import services.UserService;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -15,16 +16,29 @@ public class ConsoleSession implements Session {
     private final String path = "src/session/currentSession.txt";
     private final File file = new File(path);
     private final UserService userService = new UserService();
+    private int statusCode = 1;
 
     public ConsoleSession() {
-        user = setCurrentSessionUser();
+        Optional<User> currentUser = setCurrentSessionUser();
+
+        currentUser.ifPresent(value -> user = value);
     }
 
     public User getUser() {
         return user;
     }
 
-    private User setCurrentSessionUser() {
+    @Override
+    public void setStatusCode(int newStatusCode) {
+        statusCode = newStatusCode;
+    }
+
+    @Override
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    private Optional<User> setCurrentSessionUser() {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNext()) {
                 UUID userId = UUID.fromString(scanner.nextLine());
@@ -35,7 +49,7 @@ public class ConsoleSession implements Session {
             e.printStackTrace();
         }
 
-        return null;
+        return Optional.empty();
     }
 
     public void addCurrentSessionUser(User user) {

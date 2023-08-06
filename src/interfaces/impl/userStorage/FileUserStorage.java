@@ -6,6 +6,7 @@ import models.User;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -28,40 +29,44 @@ public class FileUserStorage implements UserStorage {
     }
 
     @Override
-    public User get(UUID id) {
+    public Optional<User> get(UUID id) {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNext()) {
                 String stringUserData = scanner.nextLine();
                 String[] splitedUserData = stringUserData.split(":");
                 UUID userId = UUID.fromString(splitedUserData[0]);
 
-                if (userId.equals(id))
-                    return convertStringUserDataToUser(splitedUserData);
+                if (userId.equals(id)) {
+                    User user = convertStringUserDataToUser(splitedUserData);
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    public User get(String username, String password) {
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNext()) {
-                String stringUserData = scanner.nextLine();
-                String[] splitedUserData = stringUserData.split(":");
-
-                if (splitedUserData[1].equals(username) && splitedUserData[2].equals(password)) {
-                    return convertStringUserDataToUser(splitedUserData);
+                    return Optional.of(user);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> get(String username, String password) {
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNext()) {
+                String stringUserData = scanner.nextLine();
+                String[] splitedUserData = stringUserData.split(":");
+
+                if (splitedUserData[1].equals(username) && splitedUserData[2].equals(password)) {
+                    User user = convertStringUserDataToUser(splitedUserData);
+
+                    return Optional.of(user);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
     }
 
     private User convertStringUserDataToUser(String[] userData) {

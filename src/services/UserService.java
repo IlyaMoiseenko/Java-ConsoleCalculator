@@ -4,10 +4,11 @@ import interfaces.UserStorage;
 import interfaces.impl.userStorage.FileUserStorage;
 import models.User;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserService {
-    private UserStorage userStorage = new FileUserStorage();
+    private final UserStorage userStorage = new FileUserStorage();
 
     public void create(String username, String password) {
         User newUser = new User(username, password);
@@ -15,13 +16,11 @@ public class UserService {
         userStorage.add(newUser);
     }
 
-    public User getById(UUID id) {
+    public Optional<User> getById(UUID id) {
         return userStorage.get(id);
     }
 
-    public User logIn(String username, String password) {
-        User user = userStorage.get(username, password);
-
-        return user;
+    public Optional<User> logIn(String username, String password) {
+        return userStorage.get(username, password);
     }
 }
