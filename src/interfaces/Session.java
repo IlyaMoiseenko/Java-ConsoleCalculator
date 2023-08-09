@@ -5,7 +5,7 @@ import models.User;
 import java.util.Optional;
 
 public interface Session {
-    Optional<User> getUser();
+    User getUser();
 
     private void setCurrentSessionUser() {};
 

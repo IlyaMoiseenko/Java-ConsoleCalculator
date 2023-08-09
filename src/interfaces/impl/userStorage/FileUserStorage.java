@@ -29,7 +29,7 @@ public class FileUserStorage implements UserStorage {
     }
 
     @Override
-    public Optional<User> get(UUID id) {
+    public User get(UUID id) {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNext()) {
                 String stringUserData = scanner.nextLine();
@@ -39,14 +39,14 @@ public class FileUserStorage implements UserStorage {
                 if (userId.equals(id)) {
                     User user = convertStringUserDataToUser(splitedUserData);
 
-                    return Optional.of(user);
+                    return user;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return Optional.empty();
+        return null;
     }
 
     @Override

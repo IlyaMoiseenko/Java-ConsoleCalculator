@@ -22,7 +22,7 @@ public class Application {
 
     public void start() {
         while (session.getStatusCode() == 1) {
-            if (session.getUser().isEmpty())
+            if (session.getUser() == null)
                 guestActions();
             else
                 userActions();
@@ -68,13 +68,13 @@ public class Application {
         writer.write("Choose type: sum, sub, mul, div");
         String type = reader.readType();
 
-        Operation operation = new Operation(num1, num2, type, session.getUser().get());
+        Operation operation = new Operation(num1, num2, type, session.getUser());
         Operation result = operationService.calculate(operation);
         writer.write("Result = " + result.getResult());
     }
 
     private void showHistory() {
-        List<String> historyByUser = operationService.getHistoryByUser(session.getUser().get());
+        List<String> historyByUser = operationService.getHistoryByUser(session.getUser());
 
         for (String result : historyByUser) {
             writer.write(result);

@@ -26,7 +26,7 @@ public class UserService {
         }
     }
 
-    public Optional<User> getById(UUID id) {
+    public User getById(UUID id) {
         return userStorage.get(id);
     }
 
