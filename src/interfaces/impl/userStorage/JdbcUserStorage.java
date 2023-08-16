@@ -54,6 +54,7 @@ public class JdbcUserStorage implements UserStorage {
                 String resultSetUsername = resultSet.getString(2);
                 String resultSetPassword = resultSet.getString(3);
 
+                preparedStatement.close();
                 return new User(resultSetId, resultSetUsername, resultSetPassword);
             }
 
@@ -77,6 +78,7 @@ public class JdbcUserStorage implements UserStorage {
                 String resultSetUsername = resultSet.getString(2);
                 String resultSetPassword = resultSet.getString(3);
 
+                preparedStatement.close();
                 return Optional.of(new User(resultSetId, resultSetUsername, resultSetPassword));
             }
         } catch (SQLException e) {
