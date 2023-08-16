@@ -4,6 +4,7 @@ import interfaces.UserStorage;
 import interfaces.Validation;
 import interfaces.Writer;
 import interfaces.impl.userStorage.FileUserStorage;
+import interfaces.impl.userStorage.JdbcUserStorage;
 import interfaces.impl.writer.ConsoleWriter;
 import models.User;
 import utils.Validator;
@@ -12,7 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class UserService {
-    private final UserStorage userStorage = new FileUserStorage();
+    //private final UserStorage userStorage = new FileUserStorage();
+    private final UserStorage userStorage = new JdbcUserStorage();
     private final Validation validator = new Validator();
     private final Writer writer = new ConsoleWriter();
 
