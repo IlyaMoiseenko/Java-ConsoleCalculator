@@ -2,6 +2,7 @@ package services;
 
 import interfaces.OperationStorage;
 import interfaces.impl.operationStorage.FileOperationStorage;
+import interfaces.impl.operationStorage.JdbcOperationStorage;
 import interfaces.impl.operationStorage.JsonOperationStorage;
 import models.Operation;
 import models.User;
@@ -13,7 +14,8 @@ public class OperationService {
 
     //private final OperationStorage storage = new InMemoryOperationStorage();
     //private final OperationStorage storage = new FileOperationStorage();
-    private final OperationStorage storage = new JsonOperationStorage();
+    //private final OperationStorage storage = new JsonOperationStorage();
+    private final OperationStorage storage = new JdbcOperationStorage();
 
     public Operation calculate(Operation operation) {
         switch (operation.getType()) {
