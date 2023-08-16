@@ -59,6 +59,6 @@ public class JsonOperationStorage implements OperationStorage {
     public List<Operation> findAllByUser(User user) {
         List<Operation> all = findAll();
 
-        return all.stream().filter(operation -> operation.getUser().getId().equals(user.getId())).toList();
+        return all.stream().filter(operation -> operation.getUserId().equals(user.getId())).toList();
     }
 }

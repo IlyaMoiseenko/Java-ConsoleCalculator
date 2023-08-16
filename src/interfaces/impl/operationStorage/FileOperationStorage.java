@@ -27,7 +27,7 @@ public class FileOperationStorage implements OperationStorage {
     public void save(Operation operation) {
         try (FileWriter fileWriter = new FileWriter(file, true)) {
             fileWriter.write(
-                    operation.getUser().getId() + ":"
+                    operation.getUserId() + ":"
                     + operation.getNum1() + ":"
                     + operation.getType() + ":"
                     + operation.getNum2() + ":"
@@ -65,7 +65,7 @@ public class FileOperationStorage implements OperationStorage {
 
                 if (UUID.fromString(splitedData[0]).equals(user.getId())) {
                     Operation operationFromFile = convertStringToOperation(data);
-                    operationFromFile.setUser(user);
+                    operationFromFile.setUserId(user.getId());
                     operations.add(operationFromFile);
                 }
             }

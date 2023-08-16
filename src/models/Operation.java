@@ -1,11 +1,13 @@
 package models;
 
+import java.util.UUID;
+
 public class Operation {
     private double num1;
     private double num2;
     private String type;
     private double result;
-    private User user;
+    private UUID userId;
 
     public Operation(double num1, double num2, String type, double result) {
         this.num1 = num1;
@@ -14,19 +16,19 @@ public class Operation {
         this.result = result;
     }
 
-    public Operation(double num1, double num2, String type, User user) {
+    public Operation(double num1, double num2, String type, UUID userId) {
         this.num1 = num1;
         this.num2 = num2;
         this.type = type;
-        this.user = user;
+        this.userId = userId;
     }
 
-    public Operation(double num1, double num2, String type, double result, User user) {
+    public Operation(double num1, double num2, String type, double result, UUID userId) {
         this.num1 = num1;
         this.num2 = num2;
         this.type = type;
         this.result = result;
-        this.user = user;
+        this.userId = userId;
     }
 
     public double getNum1() {
@@ -61,12 +63,12 @@ public class Operation {
         this.result = result;
     }
 
-    public User getUser() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -76,7 +78,7 @@ public class Operation {
                 ", num2=" + num2 +
                 ", type='" + type + '\'' +
                 ", result=" + result +
-                ", user=" + user +
+                ", userId=" + userId +
                 '}';
     }
 }
