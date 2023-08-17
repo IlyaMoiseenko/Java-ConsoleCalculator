@@ -1,4 +1,4 @@
-package interfaces.impl.reader;
+package io;
 
 import interfaces.Reader;
 

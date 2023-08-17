@@ -1,9 +1,7 @@
 package services;
 
 import interfaces.OperationStorage;
-import interfaces.impl.operationStorage.FileOperationStorage;
-import interfaces.impl.operationStorage.JdbcOperationStorage;
-import interfaces.impl.operationStorage.JsonOperationStorage;
+import storage.operationStorage.JdbcOperationStorage;
 import models.Operation;
 import models.User;
 

@@ -3,9 +3,8 @@ package services;
 import interfaces.UserStorage;
 import interfaces.Validation;
 import interfaces.Writer;
-import interfaces.impl.userStorage.FileUserStorage;
-import interfaces.impl.userStorage.JdbcUserStorage;
-import interfaces.impl.writer.ConsoleWriter;
+import storage.userStorage.JdbcUserStorage;
+import io.ConsoleWriter;
 import models.User;
 import utils.Validator;
 

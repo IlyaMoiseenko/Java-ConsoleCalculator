@@ -1,8 +1,8 @@
 import interfaces.Reader;
 import interfaces.Session;
 import interfaces.Writer;
-import interfaces.impl.reader.ConsoleReader;
-import interfaces.impl.writer.ConsoleWriter;
+import io.ConsoleReader;
+import io.ConsoleWriter;
 import models.Operation;
 import models.User;
 import services.OperationService;
@@ -68,7 +68,7 @@ public class Application {
         writer.write("Choose type: sum, sub, mul, div");
         String type = reader.readType();
 
-        Operation operation = new Operation(num1, num2, type, session.getUser());
+        Operation operation = new Operation(num1, num2, type, session.getUser().getId());
         Operation result = operationService.calculate(operation);
         writer.write("Result = " + result.getResult());
     }

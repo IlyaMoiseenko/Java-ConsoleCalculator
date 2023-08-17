@@ -1,4 +1,4 @@
-package interfaces.impl.userStorage;
+package storage.userStorage;
 
 import interfaces.UserStorage;
 import models.User;

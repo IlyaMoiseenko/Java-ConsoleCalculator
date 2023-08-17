@@ -1,4 +1,4 @@
-package interfaces.impl.operationStorage;
+package storage.operationStorage;
 
 import interfaces.OperationStorage;
 import models.Operation;

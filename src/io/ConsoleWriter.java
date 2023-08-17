@@ -1,4 +1,4 @@
-package interfaces.impl.writer;
+package io;
 
 import interfaces.Writer;
 

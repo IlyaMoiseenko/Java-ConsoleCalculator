@@ -1,4 +1,4 @@
-package interfaces.impl.operationStorage;
+package storage.operationStorage;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
