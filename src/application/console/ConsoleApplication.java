@@ -1,3 +1,5 @@
+package application.console;
+
 import interfaces.Reader;
 import interfaces.Session;
 import interfaces.Writer;
@@ -12,7 +14,7 @@ import utils.UserData;
 
 import java.util.*;
 
-public class Application {
+public class ConsoleApplication {
 
     private final Reader reader = new ConsoleReader();
     private final Writer writer = new ConsoleWriter();
