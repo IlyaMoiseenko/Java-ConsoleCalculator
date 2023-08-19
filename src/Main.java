@@ -1,6 +1,12 @@
+import application.console.ConsoleApplication;
+import application.http.HttpApplication;
+
 public class Main {
     public static void main(String[] args) {
-        Application application = new Application();
-        application.start();
+//        ConsoleApplication application = new ConsoleApplication();
+//        application.start();
+
+        HttpApplication httpApplication = new HttpApplication();
+        httpApplication.start();
     }
 }
