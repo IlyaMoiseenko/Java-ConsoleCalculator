@@ -12,7 +12,11 @@ import java.util.List;
 
 public class HistoryHandler implements HttpHandler {
     private final OperationService operationService = new OperationService();
-    private final Session session = new ConsoleSession();
+    private final Session session;
+
+    public HistoryHandler(Session session) {
+        this.session = session;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -27,5 +31,6 @@ public class HistoryHandler implements HttpHandler {
         exchange.sendResponseHeaders(200, historyInBytes.toString().getBytes().length);
 
         responseBody.write(historyInBytes.toString().getBytes());
+        responseBody.close();
     }
 }

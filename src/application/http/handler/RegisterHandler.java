@@ -1,12 +1,12 @@
 package application.http.handler;
 
 import application.http.util.HttpQueryUtil;
+import application.http.util.HttpResponseBodyUtil;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import services.UserService;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 
 public class RegisterHandler implements HttpHandler {
@@ -23,9 +23,6 @@ public class RegisterHandler implements HttpHandler {
 
         userService.create(username, password);
 
-        OutputStream responseBody = exchange.getResponseBody();
-        exchange.sendResponseHeaders(200, successMessage.getBytes().length);
-        responseBody.write(successMessage.getBytes());
-        responseBody.close();
+        HttpResponseBodyUtil.setSuccessMessage(exchange, successMessage);
     }
 }

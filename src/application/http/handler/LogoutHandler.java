@@ -1,24 +1,26 @@
 package application.http.handler;
 
+import application.http.util.HttpResponseBodyUtil;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import interfaces.Session;
 import session.ConsoleSession;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 public class LogoutHandler implements HttpHandler {
-    private final Session session = new ConsoleSession();
+    private final Session session;
+
+    public LogoutHandler(Session session) {
+        this.session = session;
+    }
+
     private final String successMessage = "Logout done!";
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         session.removeCurrentSessionUser();
 
-        OutputStream responseBody = exchange.getResponseBody();
-        exchange.sendResponseHeaders(200, successMessage.getBytes().length);
-        responseBody.write(successMessage.getBytes());
-        responseBody.close();
+        HttpResponseBodyUtil.setSuccessMessage(exchange, successMessage);
     }
 }
